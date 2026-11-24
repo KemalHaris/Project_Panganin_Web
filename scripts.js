@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // >>> SET THIS BEFORE GOING LIVE <<<
   // Admin WhatsApp number in international format, digits only:
   // country code, no "+", no spaces, no leading 0.  Example: '628123456789'
-  const ADMIN_WHATSAPP = '6282110569757';
+  const ADMIN_WHATSAPP = '6285117262696';
 
   const MAX_QTY = 99;
 
