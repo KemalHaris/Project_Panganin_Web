@@ -997,7 +997,7 @@ body::before {
 
 /*14. ORDER POP-UP + "PESAN" HINT ON PRODUCT CARDS*/
 
-/* Hint pill added to each product card by JS */
+/* slight pill effects on JS */
 .order-hint {
   align-self: flex-start;
   margin-top: auto;
@@ -1333,4 +1333,330 @@ body.modal-open { overflow: hidden; }
   }
   .order-product-img { aspect-ratio: 16 / 9; }
   .order-form { padding: 18px 18px 28px; }
+}
+
+
+/*15. FUN FACT LISTS + 12-CARD MASCOT GRID*/
+
+/* Each slide holds several facts; JS shows one at random.
+   Without JS they all show as a simple list. */
+.slide-facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.slide-facts li + li { margin-top: 10px; }
+.slide-facts.is-js li { display: none; }
+.slide-facts.is-js li.is-current { display: block; }
+
+/* 12 mascot cards: 4 columns on wide screens gives 3 even rows (the old 5 columns would leave 2 orphans) */
+@media (min-width: 1000px) {
+  .mascot-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+
+/*16. CHARACTER POP-UP (fun facts + nutrition) AND 12 SLIDE DOTS*/
+
+/* "Lihat info" hint on each character card (added by JS) */
+.char-hint {
+  align-self: center;
+  margin-top: 0;
+  font-size: 0.82rem;
+  padding: 3px 12px;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.mascot-card:hover .char-hint { animation: hintNudge 0.5s ease; }
+.mascot-card:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 4px;
+}
+
+/* Left column: characters are transparent PNGs, so show them whole on white */
+.char-img { aspect-ratio: 1 / 1; }
+.char-img img {
+  object-fit: contain;
+  padding: 12px;
+}
+.char-img.is-empty { display: none; }
+
+/* Right column */
+.char-detail {
+  padding: 24px;
+  padding-top: 28px;
+}
+
+.char-facts {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+  counter-reset: fact;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.char-facts li {
+  counter-increment: fact;
+  position: relative;
+  padding: 10px 12px 10px 48px;
+  background-color: var(--cream);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-md);
+  font-size: 0.93rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+.char-facts li::before {
+  content: counter(fact);
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background-color: var(--order-accent);
+  color: var(--order-on-accent);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.char-facts li { animation: riseIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.char-facts li:nth-child(2) { animation-delay: 0.08s; }
+.char-facts li:nth-child(3) { animation-delay: 0.16s; }
+.char-facts li:nth-child(4) { animation-delay: 0.24s; }
+
+.char-subheading {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin-bottom: 2px;
+}
+.char-basis {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+}
+
+.nutri-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.nutri-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 6px;
+  text-align: center;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-md);
+  box-shadow: 2px 2px 0 var(--ink);
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+}
+.tile-kalori { background-color: var(--yellow); }
+.tile-protein { background-color: var(--green); animation-delay: 0.08s; }
+.tile-karbo { background-color: var(--purple); color: var(--white); animation-delay: 0.16s; }
+
+.nutri-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.nutri-value {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  line-height: 1.1;
+}
+.nutri-value small {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.char-note {
+  margin-top: 12px;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+}
+
+/* Phones */
+@media (max-width: 700px) {
+  .char-detail { padding: 18px 18px 28px; }
+  .char-img { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 400px) {
+  .nutri-value { font-size: 1.3rem; }
+  .nutri-label { font-size: 0.7rem; }
+}
+
+/* 12 slide dots on phones: 6 per row (2 even rows) instead of 5 per row */
+@media (max-width: 600px) {
+  .carousel-dots {
+    padding: 0 max(0px, calc((100% - 250px) / 2));
+  }
+}
+
+
+/*17. CHARACTER PICKER IN THE ORDER POP-UP*/
+.pick-field { gap: 8px; }
+
+.pick-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.pick-label {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.pick-count {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 2px 12px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-pill);
+  background-color: var(--cream);
+  transition: background-color 0.2s ease;
+}
+.pick-count.is-complete { background-color: var(--green); }
+
+.pick-help {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.pick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 10px 8px;
+  padding-top: 6px; /* room for the count badges that poke out of the tiles */
+}
+.pick-grid.is-shaking { animation: pickShake 0.35s ease; }
+@keyframes pickShake {
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+}
+
+.pick-tile { position: relative; }
+
+.pick-main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px 6px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-md);
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.pick-main:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+.pick-tile.is-selected .pick-main {
+  background-color: var(--order-accent);
+  color: var(--order-on-accent);
+}
+
+.pick-art {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--white);
+  border: 2px solid var(--ink);
+  overflow: hidden;
+}
+.pick-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3px;
+}
+.pick-initial {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.pick-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.pick-badge {
+  position: absolute;
+  top: -7px;
+  left: -5px;
+  z-index: 1;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--white);
+  border-radius: var(--radius-pill);
+  background-color: var(--ink);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  pointer-events: none;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pick-minus {
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background-color: var(--white);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pick-reset {
+  align-self: flex-start;
+  padding: 2px 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .pick-tile:not(.is-selected) .pick-main:hover { background-color: var(--order-soft); }
+  .pick-minus:hover { background-color: var(--yellow); }
 }
